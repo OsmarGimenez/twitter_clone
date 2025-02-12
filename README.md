@@ -5,7 +5,6 @@
 
 ```git clone https://github.com/OsmarGimenez/twitter_clone```
 
-
 2. Crea un ambiente virtual 
 
 ```python -m venv socialenv```
