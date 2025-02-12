@@ -3,7 +3,7 @@
 
 1. Descarga el siguiente repositoria como zip  preferentemente en el escritorio.
 
-```git clone https://github.com/mundo-python/social_project.git```
+```git clone (https://github.com/OsmarGimenez/twitter_clone)```
 
 
 2. Crea un ambiente virtual 
