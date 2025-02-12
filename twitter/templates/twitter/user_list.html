@@ -1,0 +1,52 @@
+{% extends 'twitter/layout.html' %}
+
+{% block content %}
+    <h2>
+        {% if profile_user %}
+            {% if list_type == 'followers' %}
+                Seguidores de {{ profile_user.username }}
+            {% else %}
+                Seguidos de {{ profile_user.username }}
+            {% endif %}
+        {% else %}
+            {% if list_type == 'followers' %}
+                Mis seguidores
+            {% else %}
+                Mis seguidos
+            {% endif %}
+        {% endif %}
+    </h2>
+    <ul>
+        {% for profile in users %}  {# Iteramos sobre los perfiles #}
+            <li>
+                {% if profile.user.username %}  {# Accedemos al usuario a través del perfil #}
+                    <a href="{% url 'profile' username=profile.user.username %}">
+                        {% if profile.user.first_name %}
+                            {{ profile.user.first_name }} {% if profile.user.last_name %}{{ profile.user.last_name }}{% endif %} (@{{ profile.user.username }})
+                        {% else %}
+                            @{{ profile.user.username }}
+                        {% endif %}
+                    </a>
+
+                    {% if request.user.is_authenticated %}
+                        {% if profile.user != request.user %}  {# Comparamos con el usuario del perfil #}
+                            {% if request.user.profile not in profile.followers.all %}
+                                <form method="post" action="{% url 'follow' username=profile.user.username %}">
+                                    {% csrf_token %}
+                                    <button class="btn text-white rounded-pill" type="submit">Seguir</button>
+                                </form>
+                            {% else %}
+                                <form method="post" action="{% url 'unfollow' username=profile.user.username %}">
+                                    {% csrf_token %}
+                                    <button class="btn text-white rounded-pill" type="submit">Dejar de seguir</button>
+                                </form>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% else %}
+                    <span>Usuario sin nombre de usuario</span>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

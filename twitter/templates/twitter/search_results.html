@@ -1,0 +1,33 @@
+{% extends 'twitter/layout.html' %}
+
+{% block content %}
+  <h2>Buscar Usuarios</h2>
+  <form method="get" action="{% url 'search_users' %}">
+    {{ form.as_p }}
+    <button type="submit">Buscar</button>
+  </form>
+
+  {% if results %}
+    <h3>Resultados de la búsqueda:</h3>
+    <ul>
+      {% for user in results %}
+        <li>
+          {{ user.username }}
+          {% if user in following %}
+            <form method="post" action="{% url 'unfollow' user.username %}">
+              {% csrf_token %}
+              <button class="btn text-white rounded-pill" type="submit">Dejar de seguir</button>
+            </form>
+          {% else %}
+            <form method="post" action="{% url 'follow' user.username %}">
+              {% csrf_token %}
+              <button class="btn text-white rounded-pill" type="submit">Seguir</button>
+            </form>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>No se encontraron usuarios.</p>
+  {% endif %}
+{% endblock %}

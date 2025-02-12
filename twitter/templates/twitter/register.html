@@ -1,0 +1,52 @@
+{% extends 'twitter/layout.html' %}
+{% load static %}
+{% block content %}
+    <body class="login-page">
+        <div class="twitter-login-box">
+            <header>
+                <img src="{% static 'img/twitter-brands.svg' %}" width="30" height="30" class="d-inline-block align-top" alt="" 
+                style="background-color: #1DA1F2; padding: 10px; border-radius: 50%; width: 36px; height: 36px;">
+                <h1>Regístrate en Twitter</h1>
+            </header>
+
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {% if u_form.errors %}
+                    <ul class="errorlist">
+                        {% for field, errors in u_form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field|capfirst }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                {% if p_form.errors %}
+                    <ul class="errorlist">
+                        {% for field, errors in p_form.errors.items %}
+                            {% for error in errors %}
+                                <li>{{ field|capfirst }}: {{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+
+                <div class="input-wrapper">  <label for="id_first_name">First Name</label> {{ u_form.first_name }} </div>
+                <div class="input-wrapper">  <label for="id_username">Username</label> {{ u_form.username }} </div>
+                <div class="input-wrapper">  <label for="id_email">Email</label> {{ u_form.email }} </div>
+                <div class="input-wrapper">  <label for="id_password">Password</label> {{ u_form.password1 }} </div>
+                <div class="input-wrapper">  <label for="id_password2">Confirm Password</label> {{ u_form.password2 }} </div>
+
+                <div class="input-wrapper">  <label for="id_bio">Bio</label> {{ p_form.bio }} </div>
+                <div class="input-wrapper">  <label for="id_image">Photo</label> {{ p_form.image }} </div>
+
+                <button class="twitter-btn">Registrarse</button>
+            </form>
+
+            <div class="footer">
+                <a href="{% url 'login' %}">¿Ya tienes una cuenta? Login</a>
+            </div>
+        </div>
+        </body>
+{% endblock content %}
